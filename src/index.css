@@ -132,6 +132,8 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .time-pill:hover {
@@ -166,6 +168,12 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-transform: uppercase;
   letter-spacing: 1px;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:focus {
+  outline: none;
 }
 
 .btn:active:not(:disabled) {
