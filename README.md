@@ -14,6 +14,13 @@ Poker Timer is a specialized web application designed for poker dealers to manag
 - **Pause & Resume**: Important for pausing the clock if a situation arises that shouldn't cost the current player their time.
 - **Lightweight & Fast**: Synthesized audio means there are no external MP3/WAV files to load.
 
+## How to Use the App
+
+1. **Select Duration**: While the timer is stopped, tap the duration pills (15s, 30s, 45s, 60s) above the Start button to set the initial time limit.
+2. **Start the Clock**: Tap **Start**. The app requires this first interaction to initialize the audio context, ensuring sound alerts will play.
+3. **Pause/Continue**: If there's an interruption in the game, tap **Pause**. Tap **Continue** to resume exactly where the clock stopped.
+4. **Reset**: Tap **Reset** to abort the current countdown and return the clock to the initial selected duration.
+
 ## Setup and Installation
 
 This app is built with React, TypeScript, and Vite.
@@ -48,10 +55,3 @@ To create a production-ready build, run:
 npm run build
 ```
 This will compile the TypeScript and React code into optimized HTML, CSS, and JS in the `dist` folder. The app is pre-configured with a `netlify.toml` file, making it ready to deploy on Netlify out of the box.
-
-## How to Use the App
-
-1. **Select Duration**: While the timer is stopped, tap the duration pills (15s, 30s, 45s, 60s) above the Start button to set the initial time limit.
-2. **Start the Clock**: Tap **Start**. The app requires this first interaction to initialize the audio context, ensuring sound alerts will play.
-3. **Pause/Continue**: If there's an interruption in the game, tap **Pause**. Tap **Continue** to resume exactly where the clock stopped.
-4. **Reset**: Tap **Reset** to abort the current countdown and return the clock to the initial selected duration.
