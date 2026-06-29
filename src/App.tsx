@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { TimerDisplay } from './components/TimerDisplay';
 import { initAudio, playBeep, playWhomp } from './utils/audio';
+import { requestWakeLock, releaseWakeLock } from './utils/wakeLock';
 import './index.css';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
           window.clearInterval(timerRef.current);
           timerRef.current = null;
         }
+        releaseWakeLock();
       }
       
       return newTime;
@@ -49,6 +51,7 @@ function App() {
     if (!isRunning && timeLeft === initialTime) {
       // Start
       initAudio(); 
+      requestWakeLock();
       setIsRunning(true);
       setIsPaused(false);
       
@@ -59,6 +62,7 @@ function App() {
       timerRef.current = window.setInterval(tick, 1000);
     } else if (isRunning) {
       // Pause
+      releaseWakeLock();
       setIsPaused(true);
       setIsRunning(false);
       if (timerRef.current !== null) {
@@ -67,6 +71,7 @@ function App() {
       }
     } else if (isPaused) {
       // Continue
+      requestWakeLock();
       setIsPaused(false);
       setIsRunning(true);
       timerRef.current = window.setInterval(tick, 1000);
@@ -78,6 +83,7 @@ function App() {
       window.clearInterval(timerRef.current);
       timerRef.current = null;
     }
+    releaseWakeLock();
     setTimeLeft(initialTime);
     setIsRunning(false);
     setIsPaused(false);
