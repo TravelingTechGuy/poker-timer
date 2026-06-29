@@ -2,6 +2,8 @@
 
 Poker Timer is a specialized web application designed for poker dealers to manage player turn times smoothly and fairly. Designed specifically for use on a tablet or smartphone, it features a unique dual-sided display to provide clear visibility for both the dealer and the player sitting across the table.
 
+[See it running](https://pokey-timer.netlify.app) [![Netlify Status](https://api.netlify.com/api/v1/badges/d1aa9c3e-cb45-4bc9-a20d-edadfe0960dd/deploy-status)](https://app.netlify.com/projects/pokey-timer/deploys)
+
 ## Features
 
 - **Dual-Sided Layout**: The dealer sees the timer normally at the bottom of the screen, while the top of the screen displays a mirrored (180-degree rotated) timer so a player sitting across the table can read it effortlessly.
