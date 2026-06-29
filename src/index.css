@@ -111,6 +111,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .settings-panel {
@@ -148,12 +149,15 @@ body {
 
 .controls {
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 0 1rem;
+  width: 100%;
+  max-width: 400px;
+  justify-content: center;
 }
 
 .btn {
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   font-size: 1.25rem;
   font-weight: 700;
   font-family: 'Outfit', sans-serif;
@@ -203,6 +207,7 @@ body {
 .btn-secondary {
   background-color: var(--secondary-color);
   border-color: var(--secondary-hover);
+  flex: 1;
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -213,6 +218,7 @@ body {
   background-color: var(--danger-color);
   border-color: var(--danger-hover);
   box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+  flex: 1;
 }
 
 .btn-danger:hover:not(:disabled) {
