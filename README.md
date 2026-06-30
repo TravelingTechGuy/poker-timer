@@ -6,20 +6,24 @@ Poker Timer is a specialized web application designed for poker dealers to manag
 
 ## Features
 
+- **Continuous Dealer Mode**: Designed for one-handed operation. The dealer simply taps the screen to move action to the next player, eliminating repetitive button presses.
 - **Dual-Sided Layout**: The dealer sees the timer normally at the bottom of the screen, while the top of the screen displays a mirrored (180-degree rotated) timer so a player sitting across the table can read it effortlessly.
-- **Adjustable Time Limits**: Dealers can choose between 15, 30 (default), 45, or 60-second countdowns.
-- **Audio Feedback**: Utilizes the Web Audio API to provide synthesized sound alerts.
+- **Adjustable Time Limits**: Dealers can choose between 15, 30 (default), 45, or 60-second countdowns via a settings menu.
+- **Hybrid Screen Wake Lock**: Uses the modern native Wake Lock API (with a robust NoSleep.js fallback) to ensure the device screen never turns off or dims while a hand is actively running.
+- **Audio Feedback**: Utilizes the Web Audio API to provide lightweight synthesized sound alerts without loading external audio files.
   - An increasingly intense warning beep plays during the final 5 seconds.
   - A definitive "whomp-whomp" sound plays when the timer hits zero.
-- **Pause & Resume**: Important for pausing the clock if a situation arises that shouldn't cost the current player their time.
-- **Lightweight & Fast**: Synthesized audio means there are no external MP3/WAV files to load.
 
 ## How to Use the App
 
-1. **Select Duration**: While the timer is stopped, tap the duration pills (15s, 30s, 45s, 60s) above the Start button to set the initial time limit.
-2. **Start the Clock**: Tap **Start**. The app requires this first interaction to initialize the audio context, ensuring sound alerts will play.
-3. **Pause/Continue**: If there's an interruption in the game, tap **Pause**. Tap **Continue** to resume exactly where the clock stopped.
-4. **Reset**: Tap **Reset** to abort the current countdown and return the clock to the initial selected duration.
+The app is built around intuitive gesture controls so the dealer can keep the game moving naturally: tap, muck, tap, muck.
+
+1. **Setup**: Tap the **gear icon (⚙️)** in the bottom right to select the standard countdown duration (15s, 30s, 45s, 60s).
+2. **Start a Hand**: Tap the large **Start Hand** button in the center of the screen to begin.
+3. **Next Player (Single Tap)**: As action moves around the table, simply tap *anywhere* on the empty screen to reset the countdown for the next player. 
+4. **Time Extensions**: Tap the green **+30** pill in the bottom left to instantly add 30 seconds to the current player's clock without pausing the countdown.
+5. **Pause for Rulings (Long Press)**: If a dispute or interruption occurs, **long-press** the screen (hold for ~1 second) to pause the timer. A second long-press resumes it exactly where it left off.
+6. **End of Hand**: At the end of a hand, **long-press** to pause the timer. A **Start New Hand** button will appear in the center of the screen to reset the clock for the next deal.
 
 ## Setup and Installation
 

@@ -12,6 +12,15 @@ function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const timerRef = useRef<number | null>(null);
+  
+  // Refs for gesture handling
+  const stateRef = useRef({ isRunning, isPaused, timeLeft, initialTime });
+  const pressTimerRef = useRef<number | null>(null);
+  const hasLongPressedRef = useRef(false);
+
+  useEffect(() => {
+    stateRef.current = { isRunning, isPaused, timeLeft, initialTime };
+  }, [isRunning, isPaused, timeLeft, initialTime]);
 
   const tick = useCallback(() => {
     setTimeLeft((prev) => {
@@ -20,7 +29,6 @@ function App() {
       const newTime = prev - 1;
       
       if (newTime > 0 && newTime <= 5) {
-        // intensity from 1 to 5
         const intensity = 6 - newTime; 
         playBeep(intensity);
       } else if (newTime === 0) {
@@ -41,57 +49,81 @@ function App() {
     });
   }, []);
 
-  const handleMainAction = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (timeLeft === 0) {
-      resetTimer();
+  const handlePointerDown = (e: React.PointerEvent) => {
+    // Only left click or touch
+    if (e.button !== 0 && e.pointerType === 'mouse' && e.type !== 'pointerdown') return;
+    
+    // Don't register taps if we are interacting with settings
+    if (isSettingsOpen) {
+      setIsSettingsOpen(false);
       return;
     }
-    
-    if (!isRunning && timeLeft === initialTime) {
-      // Start
-      initAudio(); 
-      requestWakeLock();
-      setIsRunning(true);
-      setIsPaused(false);
-      
-      if (timerRef.current !== null) {
-        window.clearInterval(timerRef.current);
-      }
-      
-      timerRef.current = window.setInterval(tick, 1000);
-    } else if (isRunning) {
+
+    hasLongPressedRef.current = false;
+    pressTimerRef.current = window.setTimeout(() => {
+      hasLongPressedRef.current = true;
+      handleLongPress();
+    }, 750);
+  };
+
+  const handlePointerUp = () => {
+    if (pressTimerRef.current !== null) {
+      window.clearTimeout(pressTimerRef.current);
+      pressTimerRef.current = null;
+    }
+    if (!hasLongPressedRef.current) {
+      handleSingleTap();
+    }
+  };
+
+  const handlePointerCancel = () => {
+    if (pressTimerRef.current !== null) {
+      window.clearTimeout(pressTimerRef.current);
+      pressTimerRef.current = null;
+    }
+  };
+
+  const handleLongPress = () => {
+    const { isRunning, isPaused } = stateRef.current;
+    if (isRunning) {
       // Pause
-      releaseWakeLock();
       setIsPaused(true);
       setIsRunning(false);
       if (timerRef.current !== null) {
         window.clearInterval(timerRef.current);
         timerRef.current = null;
       }
+      releaseWakeLock();
     } else if (isPaused) {
-      // Continue
-      requestWakeLock();
+      // Resume
       setIsPaused(false);
       setIsRunning(true);
+      requestWakeLock();
       timerRef.current = window.setInterval(tick, 1000);
     }
   };
 
-  const resetTimer = () => {
-    if (timerRef.current !== null) {
-      window.clearInterval(timerRef.current);
-      timerRef.current = null;
+  const handleSingleTap = () => {
+    const { isRunning, initialTime } = stateRef.current;
+    if (isRunning) {
+      // Next Player
+      setTimeLeft(initialTime);
     }
-    releaseWakeLock();
-    setTimeLeft(initialTime);
-    setIsRunning(false);
-    setIsPaused(false);
-    setIsSettingsOpen(false);
   };
 
-  const handleBackgroundClick = () => {
-    resetTimer();
+  const startNewHand = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    initAudio(); 
+    requestWakeLock();
+    setTimeLeft(initialTime);
+    setIsRunning(true);
+    setIsPaused(false);
+    
+    if (timerRef.current !== null) {
+      window.clearInterval(timerRef.current);
+    }
+    
+    timerRef.current = window.setInterval(tick, 1000);
   };
 
   const addTime = (e: React.MouseEvent) => {
@@ -111,14 +143,6 @@ function App() {
     setIsSettingsOpen(false);
   };
 
-  const getMainButtonText = () => {
-    if (timeLeft === 0) return 'Reset';
-    if (!isRunning && timeLeft === initialTime) return 'Start';
-    if (isRunning) return 'Pause';
-    if (isPaused) return 'Continue';
-    return 'Start';
-  };
-
   useEffect(() => {
     return () => {
       if (timerRef.current !== null) {
@@ -128,20 +152,17 @@ function App() {
   }, []);
 
   return (
-    <div className="app-container" onClick={handleBackgroundClick}>
+    <div 
+      className={`app-container ${isPaused ? 'is-paused' : ''}`}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
+      onPointerLeave={handlePointerCancel}
+      onContextMenu={(e) => e.preventDefault()}
+    >
       {/* Player's view (top, inverted) */}
       <div className="zone top-zone">
         <TimerDisplay time={timeLeft} inverted={true} />
-      </div>
-
-      {/* Controls view (middle) */}
-      <div className="zone middle-zone">
-        <button 
-          className={`main-action-btn ${isRunning ? 'btn-secondary' : 'btn-primary'}`}
-          onClick={handleMainAction}
-        >
-          {getMainButtonText()}
-        </button>
       </div>
 
       {/* Dealer's view (bottom) */}
@@ -149,12 +170,41 @@ function App() {
         <TimerDisplay time={timeLeft} inverted={false} />
       </div>
 
+      {/* Centered Controls Overlay */}
+      {(!isRunning) && (
+        <div className="center-controls-overlay">
+          <button 
+            className="btn btn-primary btn-large main-action-btn"
+            onClick={startNewHand}
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+          >
+            {isPaused ? 'Start New Hand' : (timeLeft === 0 ? 'Start New Hand' : 'Start Hand')}
+          </button>
+          {isPaused && (
+            <div className="paused-indicator">
+              <span>PAUSED</span>
+              <span className="paused-subtext">(Long press to resume)</span>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Overlays */}
-      <button className="add-time-btn" onClick={addTime}>
+      <button 
+        className="add-time-btn" 
+        onClick={addTime}
+        onPointerDown={(e) => e.stopPropagation()}
+        onPointerUp={(e) => e.stopPropagation()}
+      >
         +30
       </button>
 
-      <div className="settings-container">
+      <div 
+        className="settings-container" 
+        onPointerDown={(e) => e.stopPropagation()}
+        onPointerUp={(e) => e.stopPropagation()}
+      >
         {isSettingsOpen && (
           <div className="settings-menu">
             {[15, 30, 45, 60].map((t) => (
