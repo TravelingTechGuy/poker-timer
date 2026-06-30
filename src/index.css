@@ -145,7 +145,7 @@ body {
 /* Overlays */
 .add-time-btn {
   position: absolute;
-  bottom: 2rem;
+  bottom: 4rem;
   left: 2rem;
   background-color: #22c55e;
   color: white;
@@ -169,7 +169,7 @@ body {
 
 .settings-container {
   position: absolute;
-  bottom: 2rem;
+  bottom: 4rem;
   right: 2rem;
   display: flex;
   flex-direction: column;
