@@ -225,6 +225,10 @@ function App() {
           </svg>
         </button>
       </div>
+
+      <div className="footer-label">
+        All rights reserved TravelingTech Guy LLC {new Date().getFullYear()}
+      </div>
     </div>
   );
 }
