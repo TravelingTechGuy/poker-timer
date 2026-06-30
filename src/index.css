@@ -100,8 +100,7 @@ body {
 }
 
 .top-zone {
-  flex: 1;
-  border-bottom: 1px solid var(--glass-border);
+  background-color: var(--bg-color);
 }
 
 .middle-zone {
