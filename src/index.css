@@ -58,11 +58,16 @@ body {
   align-items: center;
 }
 
-.center-controls {
+.center-controls-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  z-index: 20;
 }
 
 .paused-indicator {

@@ -165,27 +165,25 @@ function App() {
         <TimerDisplay time={timeLeft} inverted={true} />
       </div>
 
-      {/* Controls view (middle) */}
-      <div className="zone middle-zone">
-        {(!isRunning) && (
-          <div className="center-controls">
-            <button 
-              className="btn btn-primary btn-large main-action-btn"
-              onClick={startNewHand}
-              onPointerDown={(e) => e.stopPropagation()}
-              onPointerUp={(e) => e.stopPropagation()}
-            >
-              {isPaused ? 'Start New Hand' : (timeLeft === 0 ? 'Start New Hand' : 'Start Hand')}
-            </button>
-            {isPaused && <div className="paused-indicator">PAUSED (Long press to resume)</div>}
-          </div>
-        )}
-      </div>
-
       {/* Dealer's view (bottom) */}
       <div className="zone bottom-zone">
         <TimerDisplay time={timeLeft} inverted={false} />
       </div>
+
+      {/* Centered Controls Overlay */}
+      {(!isRunning) && (
+        <div className="center-controls-overlay">
+          <button 
+            className="btn btn-primary btn-large main-action-btn"
+            onClick={startNewHand}
+            onPointerDown={(e) => e.stopPropagation()}
+            onPointerUp={(e) => e.stopPropagation()}
+          >
+            {isPaused ? 'Start New Hand' : (timeLeft === 0 ? 'Start New Hand' : 'Start Hand')}
+          </button>
+          {isPaused && <div className="paused-indicator">PAUSED (Long press to resume)</div>}
+        </div>
+      )}
 
       {/* Overlays */}
       <button 
