@@ -181,7 +181,12 @@ function App() {
           >
             {isPaused ? 'Start New Hand' : (timeLeft === 0 ? 'Start New Hand' : 'Start Hand')}
           </button>
-          {isPaused && <div className="paused-indicator">PAUSED (Long press to resume)</div>}
+          {isPaused && (
+            <div className="paused-indicator">
+              <span>PAUSED</span>
+              <span className="paused-subtext">(Long press to resume)</span>
+            </div>
+          )}
         </div>
       )}
 

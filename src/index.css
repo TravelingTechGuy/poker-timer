@@ -77,6 +77,22 @@ body {
   letter-spacing: 1px;
   animation: pulse 2s infinite;
   text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.paused-indicator span:first-child {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.paused-subtext {
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.9;
+  letter-spacing: normal;
 }
 
 .is-paused .timer-display {
