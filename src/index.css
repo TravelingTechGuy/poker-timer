@@ -251,12 +251,18 @@ body {
 
 /* Main Action Button */
 .main-action-btn {
-  padding: 1.25rem 4rem;
-  font-size: 1.5rem;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.25rem;
   font-weight: 700;
   font-family: 'Outfit', sans-serif;
   border: 1px solid var(--glass-border);
-  border-radius: 1rem;
+  border-radius: 50%;
   cursor: pointer;
   color: white;
   backdrop-filter: blur(10px);
@@ -267,7 +273,6 @@ body {
   letter-spacing: 1px;
   outline: none;
   -webkit-tap-highlight-color: transparent;
-  min-width: 220px;
 }
 
 .main-action-btn:active {
