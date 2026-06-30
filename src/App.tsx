@@ -12,7 +12,7 @@ function App() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   const timerRef = useRef<number | null>(null);
-  
+
   // Refs for gesture handling
   const stateRef = useRef({ isRunning, isPaused, timeLeft, initialTime });
   const pressTimerRef = useRef<number | null>(null);
@@ -25,16 +25,16 @@ function App() {
   const tick = useCallback(() => {
     setTimeLeft((prev) => {
       if (prev <= 0) return 0;
-      
+
       const newTime = prev - 1;
-      
+
       if (newTime > 0 && newTime <= 5) {
-        const intensity = 6 - newTime; 
+        const intensity = 6 - newTime;
         playBeep(intensity);
       } else if (newTime === 0) {
         playWhomp();
       }
-      
+
       if (newTime === 0) {
         setIsRunning(false);
         setIsPaused(false);
@@ -44,7 +44,7 @@ function App() {
         }
         releaseWakeLock();
       }
-      
+
       return newTime;
     });
   }, []);
@@ -52,7 +52,7 @@ function App() {
   const handlePointerDown = (e: React.PointerEvent) => {
     // Only left click or touch
     if (e.button !== 0 && e.pointerType === 'mouse' && e.type !== 'pointerdown') return;
-    
+
     // Don't register taps if we are interacting with settings
     if (isSettingsOpen) {
       setIsSettingsOpen(false);
@@ -113,16 +113,16 @@ function App() {
 
   const startNewHand = (e: React.MouseEvent) => {
     e.stopPropagation();
-    initAudio(); 
+    initAudio();
     requestWakeLock();
     setTimeLeft(initialTime);
     setIsRunning(true);
     setIsPaused(false);
-    
+
     if (timerRef.current !== null) {
       window.clearInterval(timerRef.current);
     }
-    
+
     timerRef.current = window.setInterval(tick, 1000);
   };
 
@@ -152,7 +152,7 @@ function App() {
   }, []);
 
   return (
-    <div 
+    <div
       className={`app-container ${isPaused ? 'is-paused' : ''}`}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
@@ -173,7 +173,7 @@ function App() {
       {/* Centered Controls Overlay */}
       {(!isRunning) && (
         <div className="center-controls-overlay">
-          <button 
+          <button
             className="btn btn-primary btn-large main-action-btn"
             onClick={startNewHand}
             onPointerDown={(e) => e.stopPropagation()}
@@ -191,8 +191,8 @@ function App() {
       )}
 
       {/* Overlays */}
-      <button 
-        className="add-time-btn" 
+      <button
+        className="add-time-btn"
         onClick={addTime}
         onPointerDown={(e) => e.stopPropagation()}
         onPointerUp={(e) => e.stopPropagation()}
@@ -200,16 +200,16 @@ function App() {
         +30
       </button>
 
-      <div 
-        className="settings-container" 
+      <div
+        className="settings-container"
         onPointerDown={(e) => e.stopPropagation()}
         onPointerUp={(e) => e.stopPropagation()}
       >
         {isSettingsOpen && (
           <div className="settings-menu">
             {[15, 30, 45, 60].map((t) => (
-              <button 
-                key={t} 
+              <button
+                key={t}
                 className={`time-pill ${initialTime === t ? 'active' : ''}`}
                 onClick={(e) => handleTimeChange(e, t)}
               >
@@ -227,7 +227,7 @@ function App() {
       </div>
 
       <div className="footer-label">
-        All rights reserved TravelingTech Guy LLC {new Date().getFullYear()}
+        All rights reserved Traveling Tech Guy LLC {new Date().getFullYear()}
       </div>
     </div>
   );
