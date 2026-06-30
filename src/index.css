@@ -103,14 +103,8 @@ body {
   background-color: var(--bg-color);
 }
 
-.middle-zone {
-  flex: 0 0 160px;
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
 .bottom-zone {
-  flex: 1;
-  border-top: 1px solid var(--glass-border);
+  background-color: var(--bg-color);
 }
 
 /* Timer Display */
