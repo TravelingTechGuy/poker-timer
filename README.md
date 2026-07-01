@@ -20,7 +20,7 @@ The app is built around intuitive gesture controls so the dealer can keep the ga
 
 1. **Setup**: Tap the **gear icon (⚙️)** in the bottom right to select the standard countdown duration (15s, 30s, 45s, 60s).
 2. **Start a Hand**: Tap the large **Start Hand** button in the center of the screen to begin.
-3. **Next Player (Single Tap)**: As action moves around the table, simply tap *anywhere* on the empty screen to reset the countdown for the next player. 
+3. **Next Player (Single Tap)**: As action moves around the table, simply tap *anywhere* on the empty screen to reset the countdown for the next player.
 4. **Time Extensions**: Tap the green **+30** pill in the bottom left to instantly add 30 seconds to the current player's clock without pausing the countdown.
 5. **Pause for Rulings (Long Press)**: If a dispute or interruption occurs, **long-press** the screen (hold for ~1 second) to pause the timer. A second long-press resumes it exactly where it left off.
 6. **End of Hand**: At the end of a hand, **long-press** to pause the timer. A **Start New Hand** button will appear in the center of the screen to reset the clock for the next deal.
@@ -59,3 +59,6 @@ To create a production-ready build, run:
 npm run build
 ```
 This will compile the TypeScript and React code into optimized HTML, CSS, and JS in the `dist` folder. The app is pre-configured with a `netlify.toml` file, making it ready to deploy on Netlify out of the box.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details. All rights reserved Traveling Tech Guy LLC.
